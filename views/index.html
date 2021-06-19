@@ -13,12 +13,15 @@
     <h1>Url Shortener App</h1>
     <p>An app for transforming long urls into short links.</p>
     <input type="text" name="url" id="url" placeholder="enter url here">
-    <input type="submit" value="Shorten url">
-
+    <form action="/" method="POST">
+        <input type="submit" name="url" value="Shorten url">
+    </form>
     <style>
-        h1, p {
+        h1,
+        p {
             text-align: center;
         }
+
         input {
             margin: 0 auto;
             margin-top: 1.5em;
