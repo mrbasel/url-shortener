@@ -16,9 +16,8 @@ router.get("/:urlId", async function (req, res, next) {
     "SELECT * FROM links WHERE url_id = $1",
     urlId
   );
-  if (!linkData) res.redirect("/");
-
-  res.redirect(linkData.destination_url);
+  if (linkData == null) res.redirect("/");
+  else res.redirect(linkData.destination_url);
 });
 
 router.post("/", function (req, res, next) {
