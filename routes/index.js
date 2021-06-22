@@ -9,6 +9,11 @@ router.get("/", function (req, res, next) {
   res.render("index.html", { title: "Express" });
 });
 
+router.get("/url/:token", function (req, res, next) {
+  const link = `${req.protocol}://${req.get("host")}/${req.params.token}`;
+  res.render("link.html", { title: "Express", link: link });
+});
+
 router.get("/:urlId", async function (req, res, next) {
   const urlId = req.params.urlId;
 
@@ -24,12 +29,13 @@ router.post("/", function (req, res, next) {
   const url = req.body.url;
   if (!url) res.status(500).end();
 
+  const urlToken = nanoid(8);
   db.any("INSERT INTO links(url_id, destination_url) VALUES ($1, $2)", [
-    nanoid(8),
+    urlToken,
     url,
   ]);
 
-  res.redirect("/");
+  res.redirect("/url/" + urlToken);
 });
 
 module.exports = router;

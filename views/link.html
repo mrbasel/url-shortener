@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
+    <title>{{ title }}</title>
+</head>
+
+<body>
+    <h1>Your Shortend Link is Ready!</h1>
+    <input type="text" name="link" id="link" value={{ link }} readonly>
+    <input id="copy-btn" type="button" value="Copy to Clipboard">
+    <p></p>
+    <style>
+        h1,
+        p {
+            text-align: center;
+        }
+
+        input {
+            margin: 0 auto;
+            margin-top: 1.5em;
+        }
+
+        #link {
+            width: 50%;
+        }
+    </style>
+</body>
+<script>
+    document.querySelector("#copy-btn").addEventListener("click", () => {
+        const linkField = document.querySelector("#link");
+        linkField.select();
+        document.execCommand("copy");
+        alert("Link copied!");
+    });
+
+</script>
+
+</html>
