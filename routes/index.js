@@ -11,7 +11,7 @@ const router = express.Router();
 router.get("/", function (req, res, next) {
   const errors = req.cookies["err"];
   res.clearCookie("err", { httpOnly: true });
-  
+
   res.render("index.html", { title: "Express", errors: errors });
 });
 
@@ -27,15 +27,17 @@ router.get("/:urlId", async function (req, res, next) {
     "SELECT * FROM links WHERE url_id = $1",
     urlId
   );
-  if (linkData == null) res.redirect("/");
-  else res.redirect(linkData.destination_url);
+  if (linkData == null) {
+    res.locals.msg = "This link does not exist";
+    next();
+  } else res.redirect(linkData.destination_url);
 });
 
 router.post("/", function (req, res, next) {
   const url = req.body.url;
 
   if (!isValidUrl(url)) {
-    res.cookie("err", "Invalid URL")
+    res.cookie("err", "Invalid URL");
     res.redirect("/");
     return;
   }
