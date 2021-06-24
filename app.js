@@ -24,6 +24,10 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
 
+app.use(function (err, req, res, next) {
+  console.error(err.stack);
+  res.status(500).render("error.html");
+});
 
 app.use(function (req, res, next) {
   res.status(404).render("404.html");
