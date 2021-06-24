@@ -1,12 +1,10 @@
 const express = require("express");
-const pgp = require("pg-promise")();
 const { nanoid } = require("nanoid");
-const cookieParser = require("cookie-parser");
 
 const { isValidUrl } = require("../helpers.js");
 
-const db = pgp(process.env.DATABASE_URL);
 const router = express.Router();
+const db = require("../db/db.js");
 
 router.get("/", function (req, res, next) {
   const errors = req.cookies["err"];
@@ -23,10 +21,7 @@ router.get("/url/:token", function (req, res, next) {
 router.get("/:urlId", async function (req, res, next) {
   const urlId = req.params.urlId;
 
-  const linkData = await db.oneOrNone(
-    "SELECT * FROM links WHERE url_id = $1",
-    urlId
-  );
+  const linkData = await db.links.get(urlId);
   if (linkData == null) {
     res.locals.msg = "This link does not exist";
     next();
@@ -45,10 +40,7 @@ router.post("/", function (req, res, next) {
   if (url === "" || url == undefined) res.status(400).send("URL missing");
   else {
     const urlToken = nanoid(8);
-    db.any("INSERT INTO links(url_id, destination_url) VALUES ($1, $2)", [
-      urlToken,
-      url,
-    ]);
+    db.links.add(url, urlToken);
 
     res.redirect("/url/" + urlToken);
   }

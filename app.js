@@ -5,6 +5,7 @@ const logger = require("morgan");
 const nunjucks = require("nunjucks");
 
 const indexRouter = require("./routes/index");
+const { createTables } = require("./db/db.js");
 
 const app = express();
 
@@ -14,6 +15,9 @@ nunjucks.configure("views", {
   autoescape: true,
   express: app,
 });
+
+// Create tables if they are not created already
+createTables();
 
 app.use(cookieParser());
 app.use(logger("dev"));
