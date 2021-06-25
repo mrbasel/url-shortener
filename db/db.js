@@ -12,10 +12,18 @@ exports.createTables = async function () {
 };
 
 exports.links = {
-  get: async function (urlToken) {
+  get: async function (urlToken, increment = false) {
+    let queryText = "SELECT * FROM links WHERE url_id = $1";
+    let statementName = "get-link";
+    if (increment) {
+      statementName = "getUpdate-link";
+      queryText =
+        "UPDATE links SET clicks_count = clicks_count + 1 WHERE url_id = $1 RETURNING *";
+    }
+
     const getLinkStatement = new PS({
-      name: "get-link",
-      text: "SELECT * FROM links WHERE url_id = $1",
+      name: statementName,
+      text: queryText,
       values: [urlToken],
     });
 

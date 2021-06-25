@@ -13,22 +13,35 @@ router.get("/", function (req, res, next) {
   res.render("index.html", { title: "Express", errors: errors });
 });
 
-router.get("/url/:token", function (req, res, next) {
-  const link = `${req.protocol}://${req.get("host")}/${req.params.token}`;
-  res.render("link.html", { title: "Express", link: link });
+router.get("/url/:token", async function (req, res, next) {
+  const urlId = req.params.token;
+  const link = `${req.protocol}://${req.get("host")}/${urlId}`;
+
+  const linkData = await db.links.get(urlId, false);
+
+  if (linkData == null) {
+    res.locals.msg = "This link does not exist";
+    return next();
+  }
+
+  res.render("link.html", {
+    title: "Express",
+    link: link,
+    clicks: linkData.clicks_count,
+  });
 });
 
 router.get("/:urlId", async function (req, res, next) {
   const urlId = req.params.urlId;
 
-  const linkData = await db.links.get(urlId);
+  const linkData = await db.links.get(urlId, true);
   if (linkData == null) {
     res.locals.msg = "This link does not exist";
     next();
   } else res.redirect(linkData.destination_url);
 });
 
-router.post("/", function (req, res, next) {
+router.post("/", async function (req, res, next) {
   const url = req.body.url;
 
   if (!isValidUrl(url)) {
@@ -40,7 +53,7 @@ router.post("/", function (req, res, next) {
   if (url === "" || url == undefined) res.status(400).send("URL missing");
   else {
     const urlToken = nanoid(8);
-    db.links.add(url, urlToken);
+    await db.links.add(url, urlToken);
 
     res.redirect("/url/" + urlToken);
   }
