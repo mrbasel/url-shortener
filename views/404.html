@@ -10,15 +10,12 @@
 </head>
 
 <body>
-    <h1>Url Shortener App</h1>
-    <p>An app for transforming long urls into short links.</p>
-    {% if errors %}
-    <h2>{{ errors }}</h2>
+    {% if msg %}
+    <h1>{{ msg }}</h1>
+    {% else %}
+    <h1>404 Not Found</h1>
     {% endif %}
-    <form action="/" method="POST">
-        <input type="text" name="url" id="url" placeholder="enter url here" required>
-        <input type="submit" value="Shorten url">
-    </form>
+    <a href="/">Go back</a>
     <style>
         * {
             text-align: center;

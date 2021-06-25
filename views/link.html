@@ -10,17 +10,13 @@
 </head>
 
 <body>
-    <h1>Url Shortener App</h1>
-    <p>An app for transforming long urls into short links.</p>
-    {% if errors %}
-    <h2>{{ errors }}</h2>
-    {% endif %}
-    <form action="/" method="POST">
-        <input type="text" name="url" id="url" placeholder="enter url here" required>
-        <input type="submit" value="Shorten url">
-    </form>
+    <h1>Your Shortend Link is Ready!</h1>
+    <input type="text" name="link" id="link" value={{ link }} readonly>
+    <input id="copy-btn" type="button" value="Copy to Clipboard">
+    <p></p>
     <style>
-        * {
+        h1,
+        p {
             text-align: center;
         }
 
@@ -29,10 +25,19 @@
             margin-top: 1.5em;
         }
 
-        #url {
-            width: 60%;
+        #link {
+            width: 50%;
         }
     </style>
 </body>
+<script>
+    document.querySelector("#copy-btn").addEventListener("click", () => {
+        const linkField = document.querySelector("#link");
+        linkField.select();
+        document.execCommand("copy");
+        alert("Link copied!");
+    });
+
+</script>
 
 </html>
