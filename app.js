@@ -5,6 +5,7 @@ const logger = require("morgan");
 const nunjucks = require("nunjucks");
 
 const indexRouter = require("./routes/index");
+const apiRouter = require("./routes/api");
 const { createTables } = require("./db/db.js");
 
 const app = express();
@@ -27,6 +28,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
+app.use("/api", apiRouter);
 
 app.use(function (err, req, res, next) {
   console.error(err.stack);
