@@ -14,7 +14,9 @@
     "nanoid": "^3.1.23",
     "nunjucks": "^3.2.3",
     "pg": "^8.6.0",
-    "pg-promise": "^10.10.2"
+    "pg-hstore": "^2.3.4",
+    "pg-promise": "^10.10.2",
+    "sequelize": "^6.6.4"
   },
   "devDependencies": {
     "dotenv": "^10.0.0"
