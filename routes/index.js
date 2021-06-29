@@ -47,8 +47,7 @@ router.get("/:urlId", async function (req, res, next) {
     res.locals.msg = "This link does not exist";
     next();
   } else {
-    link.clicksCount++;
-    await link.save();
+    link.increment("clicksCount");
     res.redirect(link.destinationUrl);
   }
 });
