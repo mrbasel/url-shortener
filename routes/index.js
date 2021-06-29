@@ -13,6 +13,44 @@ router.get("/", function (req, res, next) {
   res.render("index.html", { title: "Express", errors: errors });
 });
 
+router.post("/", async function (req, res, next) {
+  const url = req.body.url;
+
+  if (!isValidUrl(url)) {
+    res.cookie("err", "Invalid URL");
+    res.redirect("/");
+    return;
+  }
+
+  if (url === "" || url == undefined) res.status(400).send("URL missing");
+  else {
+    const urlId = nanoid(8);
+    await Link.create({
+      destinationUrl: url,
+      urlId: urlId,
+    });
+
+    res.redirect("/url/" + urlId);
+  }
+});
+
+router.get("/:urlId", async function (req, res, next) {
+  const urlId = req.params.urlId;
+
+  const link = await Link.findOne({
+    where: {
+      urlId: urlId,
+    },
+  });
+  if (link == null) {
+    res.locals.msg = "This link does not exist";
+    next();
+  } else {
+    link.increment("clicksCount");
+    res.redirect(link.destinationUrl);
+  }
+});
+
 router.get("/url/:token", async function (req, res, next) {
   const urlId = req.params.token;
   const link = `${req.protocol}://${req.get("host")}/${urlId}`;
@@ -33,44 +71,6 @@ router.get("/url/:token", async function (req, res, next) {
     link: link,
     clicks: linkData.clicksCount,
   });
-});
-
-router.get("/:urlId", async function (req, res, next) {
-  const urlId = req.params.urlId;
-
-  const link = await Link.findOne({
-    where: {
-      urlId: urlId,
-    },
-  });
-  if (link == null) {
-    res.locals.msg = "This link does not exist";
-    next();
-  } else {
-    link.increment("clicksCount");
-    res.redirect(link.destinationUrl);
-  }
-});
-
-router.post("/", async function (req, res, next) {
-  const url = req.body.url;
-
-  if (!isValidUrl(url)) {
-    res.cookie("err", "Invalid URL");
-    res.redirect("/");
-    return;
-  }
-
-  if (url === "" || url == undefined) res.status(400).send("URL missing");
-  else {
-    const urlId = nanoid(8);
-    await Link.create({
-      destinationUrl: url,
-      urlId: urlId,
-    });
-
-    res.redirect("/url/" + urlId);
-  }
 });
 
 module.exports = router;
