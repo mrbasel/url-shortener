@@ -2,7 +2,7 @@ const express = require("express");
 const { nanoid } = require("nanoid");
 
 const { isValidUrl } = require("../helpers.js");
-const db = require("../db/db.js");
+const { Link } = require("../models.js");
 
 const router = express.Router();
 
@@ -22,7 +22,10 @@ router.post("/", async function (req, res, next) {
 
   const urlToken = nanoid(8);
   try {
-    const linkData = await db.links.add(url, urlToken);
+    await Link.create({
+      destinationUrl: url,
+      urlId: urlToken,
+    });
     const link = `${req.protocol}://${req.get("host")}/${urlToken}`;
 
     res.status(200).json({
