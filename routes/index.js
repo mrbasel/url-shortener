@@ -19,7 +19,7 @@ router.get("/url/:token", async function (req, res, next) {
 
   const linkData = await Link.findOne({
     where: {
-      url_id: urlId,
+      urlId: urlId,
     },
   });
 
@@ -31,7 +31,7 @@ router.get("/url/:token", async function (req, res, next) {
   res.render("link.html", {
     title: "Express",
     link: link,
-    clicks: linkData.clicks_count,
+    clicks: linkData.clicksCount,
   });
 });
 
@@ -40,16 +40,16 @@ router.get("/:urlId", async function (req, res, next) {
 
   const link = await Link.findOne({
     where: {
-      url_id: urlId,
+      urlId: urlId,
     },
   });
   if (link == null) {
     res.locals.msg = "This link does not exist";
     next();
   } else {
-    link.clicks_count++;
+    link.clicksCount++;
     await link.save();
-    res.redirect(link.destination_url);
+    res.redirect(link.destinationUrl);
   }
 });
 
@@ -64,13 +64,13 @@ router.post("/", async function (req, res, next) {
 
   if (url === "" || url == undefined) res.status(400).send("URL missing");
   else {
-    const urlToken = nanoid(8);
+    const urlId = nanoid(8);
     await Link.create({
-      destination_url: url,
-      url_id: urlToken,
+      destinationUrl: url,
+      urlId: urlId,
     });
 
-    res.redirect("/url/" + urlToken);
+    res.redirect("/url/" + urlId);
   }
 });
 

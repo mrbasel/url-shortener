@@ -6,22 +6,23 @@ class Link extends Model {}
 
 Link.init(
   {
-    url_id: {
+    urlId: {
       type: DataTypes.STRING(20),
       allowNull: false,
       unique: true,
     },
-    destination_url: {
+    destinationUrl: {
       type: DataTypes.STRING(2000),
       allowNull: false,
     },
-    clicks_count: {
+    clicksCount: {
       type: DataTypes.INTEGER,
       defaultValue: 0,
     },
   },
   {
     sequelize,
+    underscored: true,
   }
 );
 
