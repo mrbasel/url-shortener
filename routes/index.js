@@ -13,6 +13,13 @@ router.get("/", function (req, res, next) {
   res.render("index.html", { title: "Express", errors: errors });
 });
 
+router.get("/account", function (req, res, next) {
+  res.render("account.html", {
+    username: req.user.username,
+    key: req.user.apiKey,
+  });
+});
+
 router.post("/", async function (req, res, next) {
   const url = req.body.url;
 
