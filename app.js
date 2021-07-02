@@ -6,6 +6,7 @@ const nunjucks = require("nunjucks");
 
 const indexRouter = require("./routes/index");
 const apiRouter = require("./routes/api");
+const authRouter = require("./routes/auth");
 const { sequelize } = require("./models.js");
 
 const app = express();
@@ -28,6 +29,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
+app.use("/auth", authRouter);
 app.use("/api", apiRouter);
 
 app.use(function (err, req, res, next) {
