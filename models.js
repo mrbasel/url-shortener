@@ -41,6 +41,10 @@ User.init(
       allowNull: false,
       unique: false,
     },
+    apiKey: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
+    },
   },
   {
     sequelize,
