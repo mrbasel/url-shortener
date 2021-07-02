@@ -8,16 +8,6 @@ const { User } = require("../models.js");
 
 const router = express.Router();
 
-router.use(
-  session({
-    secret: process.env.secret,
-    resave: false,
-    saveUninitialized: false,
-  })
-);
-router.use(passport.initialize());
-router.use(passport.session());
-
 passport.use(
   new LocalStrategy(async function (username, password, done) {
     try {
@@ -62,14 +52,12 @@ router.post("/register", async function (req, res, next) {
 });
 
 passport.serializeUser(function (user, done) {
-  console.log(user);
   done(null, user.id);
 });
 
 passport.deserializeUser(async function (id, done) {
-  console.log(user);
   const user = await User.findByPk(id);
-  done(err, user);
+  done(null, user);
 });
 
 module.exports = router;
