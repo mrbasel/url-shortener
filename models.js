@@ -1,8 +1,11 @@
 const { Sequelize, DataTypes, Model } = require("sequelize");
 
-const sequelize = new Sequelize(process.env.DATABASE_URL);
+const sequelize = new Sequelize(process.env.DATABASE_URL, {
+  logging: false,
+});
 
 class Link extends Model {}
+class User extends Model {}
 
 Link.init(
   {
@@ -26,7 +29,27 @@ Link.init(
   }
 );
 
+User.init(
+  {
+    username: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+    },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: false,
+    },
+  },
+  {
+    sequelize,
+    underscored: true,
+  }
+);
+
 module.exports = {
   sequelize,
   Link,
+  User,
 };
