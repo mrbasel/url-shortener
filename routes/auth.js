@@ -5,6 +5,7 @@ const LocalStrategy = require("passport-local").Strategy;
 const bcrypt = require("bcrypt");
 
 const { User } = require("../models.js");
+const { isAnonymous } = require("../helpers.js");
 
 const router = express.Router();
 
@@ -23,7 +24,7 @@ passport.use(
   })
 );
 
-router.get("/login", function (req, res, next) {
+router.get("/login", isAnonymous, function (req, res, next) {
   res.render("login.html");
 });
 
@@ -35,7 +36,7 @@ router.post(
   })
 );
 
-router.get("/register", function (req, res, next) {
+router.get("/register", isAnonymous, function (req, res, next) {
   res.render("register.html");
 });
 

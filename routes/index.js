@@ -1,7 +1,7 @@
 const express = require("express");
 const { nanoid } = require("nanoid");
 
-const { isValidUrl } = require("../helpers.js");
+const { isValidUrl, isLoggedIn } = require("../helpers.js");
 const { Link } = require("../models.js");
 
 const router = express.Router();
@@ -13,7 +13,7 @@ router.get("/", function (req, res, next) {
   res.render("index.html", { title: "Express", errors: errors });
 });
 
-router.get("/account", function (req, res, next) {
+router.get("/account", isLoggedIn, function (req, res, next) {
   res.render("account.html", {
     username: req.user.username,
     key: req.user.apiKey,
