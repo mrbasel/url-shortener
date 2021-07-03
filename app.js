@@ -51,8 +51,21 @@ app.use("/auth", authRouter);
 app.use("/api", apiRouter);
 
 app.use(function (err, req, res, next) {
+  if (err instanceof SyntaxError) {
+    res.locals.json = true;
+    next(err);
+  }
+});
+
+app.use(function (err, req, res, next) {
+  console.log(res.locals.json);
   console.error(err.stack);
-  res.status(500).render("error.html");
+  if (res.locals.json)
+    res.status(500).json({
+      status: "error",
+      message: "Something went wrong, try again later",
+    });
+  else res.status(500).render("error.html");
 });
 
 app.use(function (req, res, next) {
