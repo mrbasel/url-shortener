@@ -3,8 +3,12 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const nunjucks = require("nunjucks");
+const passport = require("passport");
+const session = require("express-session");
 
 const indexRouter = require("./routes/index");
+const apiRouter = require("./routes/api");
+const authRouter = require("./routes/auth");
 const { sequelize } = require("./models.js");
 
 const app = express();
@@ -25,8 +29,19 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
+app.use(
+  session({
+    secret: process.env.secret,
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use("/", indexRouter);
+app.use("/auth", authRouter);
+app.use("/api", apiRouter);
 
 app.use(function (err, req, res, next) {
   console.error(err.stack);
