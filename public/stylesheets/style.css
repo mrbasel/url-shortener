@@ -11,7 +11,7 @@ input {
   margin-top: 1.5em;
 }
 
-input[type="text"] {
+input {
   width: 40%;
 }
 
