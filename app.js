@@ -5,6 +5,12 @@ const logger = require("morgan");
 const nunjucks = require("nunjucks");
 const passport = require("passport");
 const session = require("express-session");
+const helmet = require("helmet");
+
+// Load enviroment vars from .env file if in dev enviroment
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config();
+}
 
 const indexRouter = require("./routes/index");
 const apiRouter = require("./routes/api");
@@ -23,6 +29,7 @@ nunjucks.configure("views", {
 // synchronize all models in db
 sequelize.sync();
 
+app.use(helmet());
 app.use(cookieParser());
 app.use(logger("dev"));
 app.use(express.json());
