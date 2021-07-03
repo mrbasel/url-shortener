@@ -1,34 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "layout.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
-    <title>{{ title }}</title>
-</head>
+{% block main %}
+<h1>Your Shortend Link is Ready!</h1>
+<input type="text" name="link" id="link" value={{ link }} readonly>
+<div>
+    <button id="copy-btn">Copy to Clipboard</button>
+</div>
+<h3>Clicks: {{ clicks }}</h3>
+{% endblock %}
 
-<body>
-    <h1>Your Shortend Link is Ready!</h1>
-    <input type="text" name="link" id="link" value={{ link }} readonly>
-    <input id="copy-btn" type="button" value="Copy to Clipboard">
-    <h3>Clicks: {{ clicks }}</h3>
-    <style>
-        * {
-            text-align: center;
-        }
-
-        input {
-            margin: 0 auto;
-            margin-top: 1.5em;
-        }
-
-        #link {
-            width: 50%;
-        }
-    </style>
-</body>
+{% block script %}
 <script src="/javascripts/link.js"></script>
-
-</html>
+{% endblock %}
