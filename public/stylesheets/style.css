@@ -11,7 +11,7 @@ input {
   margin-top: 1.5em;
 }
 
-#url {
+input[type="text"] {
   width: 40%;
 }
 
