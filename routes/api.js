@@ -35,8 +35,10 @@ router.post("/", isAuthorized, async function (req, res, next) {
       },
     });
   } catch (e) {
-    res.locals.json = true;
-    return next(e);
+    return res.status(500).json({
+      status: "error",
+      message: "Something went wrong, try again later",
+    });
   }
 });
 
@@ -60,8 +62,11 @@ async function isAuthorized(req, res, next) {
       res.status(400).end();
     }
   } catch (e) {
-    res.locals.json = true;
-    return next(e);
+    console.error(e);
+    return res.status(500).json({
+      status: "error",
+      message: "Something went wrong, try again later",
+    });
   }
 
   next();
