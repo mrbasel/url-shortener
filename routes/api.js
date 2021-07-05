@@ -1,5 +1,6 @@
 const express = require("express");
 const { nanoid } = require("nanoid");
+const validator = require("validator");
 
 const { isValidUrl } = require("../helpers.js");
 const { Link, User } = require("../models.js");
@@ -44,11 +45,12 @@ router.post("/", isAuthorized, async function (req, res, next) {
 
 async function isAuthorized(req, res, next) {
   const apiKey = req.get("x-api-key");
+  const isValidKey = validator.isUUID(apiKey);
 
-  if (!apiKey)
-    return res.status(401).json({
+  if (!isValidKey)
+    return res.status(400).json({
       status: "fail",
-      message: "No api key provided",
+      message: "Unvalid api key",
     });
 
   try {
@@ -59,7 +61,10 @@ async function isAuthorized(req, res, next) {
     });
 
     if (!user) {
-      res.status(400).end();
+      return res.status(401).json({
+        status: "fail",
+        message: "Unvalid api key",
+      });
     }
   } catch (e) {
     console.error(e);

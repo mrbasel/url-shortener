@@ -21,7 +21,8 @@
     "pg": "^8.6.0",
     "pg-hstore": "^2.3.4",
     "pg-promise": "^10.10.2",
-    "sequelize": "^6.6.4"
+    "sequelize": "^6.6.4",
+    "validator": "^10.11.0"
   },
   "devDependencies": {
     "dotenv": "^10.0.0"
