@@ -5,6 +5,12 @@ const logger = require("morgan");
 const nunjucks = require("nunjucks");
 const passport = require("passport");
 const session = require("express-session");
+const helmet = require("helmet");
+
+// Load enviroment vars from .env file if in dev enviroment
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config();
+}
 
 const indexRouter = require("./routes/index");
 const apiRouter = require("./routes/api");
@@ -23,6 +29,7 @@ nunjucks.configure("views", {
 // synchronize all models in db
 sequelize.sync();
 
+app.use(helmet());
 app.use(cookieParser());
 app.use(logger("dev"));
 app.use(express.json());
@@ -44,8 +51,21 @@ app.use("/auth", authRouter);
 app.use("/api", apiRouter);
 
 app.use(function (err, req, res, next) {
+  if (err instanceof SyntaxError) {
+    res.locals.json = true;
+    next(err);
+  }
+});
+
+app.use(function (err, req, res, next) {
+  console.log(res.locals.json);
   console.error(err.stack);
-  res.status(500).render("error.html");
+  if (res.locals.json)
+    res.status(500).json({
+      status: "error",
+      message: "Something went wrong, try again later",
+    });
+  else res.status(500).render("error.html");
 });
 
 app.use(function (req, res, next) {

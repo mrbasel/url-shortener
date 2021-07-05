@@ -1,38 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "layout.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
-    <title>{{ title }}</title>
-</head>
-
-<body>
-    <h1>Url Shortener App</h1>
-    <p>An app for transforming long urls into short links.</p>
-    {% if errors %}
-    <h2>{{ errors }}</h2>
-    {% endif %}
-    <form action="/" method="POST">
-        <input type="text" name="url" id="url" placeholder="enter url here" required>
+{% block main %}
+<h1>Url Shortener App</h1>
+<p>An app for transforming long urls into short links.</p>
+{% if errors %}
+<h2>{{ errors }}</h2>
+{% endif %}
+<form action="/" method="POST">
+    <input type="text" name="url" id="url" placeholder="enter url here" required>
+    <div>
         <input type="submit" value="Shorten url">
-    </form>
-    <style>
-        * {
-            text-align: center;
-        }
-
-        input {
-            margin: 0 auto;
-            margin-top: 1.5em;
-        }
-
-        #url {
-            width: 60%;
-        }
-    </style>
-</body>
-
-</html>
+    </div>
+</form>
+{% endblock %}

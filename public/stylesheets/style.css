@@ -1,8 +1,22 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+main {
+  margin-top: 2em;
 }
 
-a {
-  color: #00B7FF;
+* {
+  text-align: center;
+}
+
+input {
+  margin: 0 auto;
+  margin-top: 1.5em;
+}
+
+input {
+  width: 40%;
+}
+
+@media screen and (max-width: 900px) {
+  #url {
+    width: 80%;
+  }
 }

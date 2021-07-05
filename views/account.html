@@ -1,32 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "layout.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
-    <title>{{ title }}</title>
-</head>
-
-<body>
-    <h1>Welcome, {{ username }}</h1>
-    <p>Your API key:</p>
-    <input type="text" name="key" id="key" value={{ key }} readonly>
-    <style>
-        * {
-            text-align: center;
-        }
-
-        input {
-            margin: 0 auto;
-            margin-top: 1.5em;
-        }
-
-        #key {
-            width: 60%;
-        }
-    </style>
-</body>
-
-</html>
+{% block main %}
+<h1>Welcome, {{ username }}</h1>
+<p>Your API key:</p>
+<input type="text" name="key" id="key" value={{ key }} readonly>
+{% endblock %}

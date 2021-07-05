@@ -11,6 +11,7 @@
     "debug": "~2.6.9",
     "express": "~4.16.1",
     "express-session": "^1.17.2",
+    "helmet": "^4.6.0",
     "http-errors": "~1.6.3",
     "morgan": "~1.9.1",
     "nanoid": "^3.1.23",
@@ -20,7 +21,8 @@
     "pg": "^8.6.0",
     "pg-hstore": "^2.3.4",
     "pg-promise": "^10.10.2",
-    "sequelize": "^6.6.4"
+    "sequelize": "^6.6.4",
+    "validator": "^10.11.0"
   },
   "devDependencies": {
     "dotenv": "^10.0.0"
