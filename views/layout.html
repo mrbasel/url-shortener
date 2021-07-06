@@ -7,23 +7,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/picnic">
     <link rel="stylesheet" href="/stylesheets/style.css">
-    <title>App</title>
+    {% block style %}{% endblock %}
+    <title>Utrim</title>
 </head>
 
 <body>
     <nav class="demo">
         <a href="/" class="brand">
-            <span>App</span>
+            <span>Utrim</span>
         </a>
 
         <input id="bmenub" type="checkbox" class="show">
         <label for="bmenub" class="burger pseudo button">menu</label>
 
         <div class="menu">
-            {% block nav %}
+            {% if not isAuthenticated %}
             <a href="/auth/login" class="pseudo button icon-picture">Login</a>
             <a href="/auth/register" class="pseudo button icon-picture">Register</a>
-            {% endblock %}
+            {% else %}
+            <a href="/auth/logout" class="pseudo button icon-picture">Logout</a>
+            {% endif %}
             <a href="https://github.com/mrbasel/url-shortener" class="button icon-puzzle">Github</a>
         </div>
     </nav>

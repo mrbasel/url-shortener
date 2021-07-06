@@ -1,7 +1,11 @@
 {% extends "layout.html" %}
 
+{% block style %}
+<link rel="stylesheet" href="/stylesheets/index.css">
+{% endblock %}
+
 {% block main %}
-<h1>Url Shortener App</h1>
+<h1>Utrim</h1>
 <p>An app for transforming long urls into short links.</p>
 {% if errors %}
 <h2>{{ errors }}</h2>
@@ -12,4 +16,18 @@
         <input type="submit" value="Shorten url">
     </div>
 </form>
+<div class="features flex one three-600">
+    <div>
+        <h4>Easy to use ✅</h4>
+        <p>Just paste your link into the above form then submit. No registeration required.</p>
+    </div>
+    <div>
+        <h4>Open source ✅</h4>
+        <p>Open source under the MIT licence.</p>
+    </div>
+    <div>
+        <h4>API support ✅</h4>
+        <p>You can use the API to shorten urls from anywhere. Register for an account <a href="/auth/register">here.</a></p>
+    </div>
+</div>
 {% endblock %}

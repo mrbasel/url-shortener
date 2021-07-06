@@ -52,6 +52,11 @@ router.post("/register", async function (req, res, next) {
   res.redirect("/auth/login");
 });
 
+router.get("/logout", function (req, res, next) {
+  req.logOut();
+  res.redirect("/");
+});
+
 passport.serializeUser(function (user, done) {
   done(null, user.id);
 });
