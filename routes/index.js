@@ -6,6 +6,11 @@ const { Link } = require("../models.js");
 
 const router = express.Router();
 
+router.use(function (req, res, next) {
+  res.locals.isAuthenticated = req.isAuthenticated();
+  next();
+});
+
 router.get("/", function (req, res, next) {
   const errors = req.cookies["err"];
   res.clearCookie("err", { httpOnly: true });

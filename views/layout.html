@@ -20,10 +20,10 @@
         <label for="bmenub" class="burger pseudo button">menu</label>
 
         <div class="menu">
-            {% block nav %}
+            {% if not isAuthenticated %}
             <a href="/auth/login" class="pseudo button icon-picture">Login</a>
             <a href="/auth/register" class="pseudo button icon-picture">Register</a>
-            {% endblock %}
+            {% endif %}
             <a href="https://github.com/mrbasel/url-shortener" class="button icon-puzzle">Github</a>
         </div>
     </nav>
