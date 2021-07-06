@@ -15,7 +15,7 @@ router.get("/", function (req, res, next) {
   const errors = req.cookies["err"];
   res.clearCookie("err", { httpOnly: true });
 
-  res.render("index.html", { title: "Express", errors: errors });
+  res.render("index.html", { errors: errors });
 });
 
 router.get("/account", isLoggedIn, function (req, res, next) {
