@@ -19,6 +19,10 @@ input {
   width: 40%;
 }
 
+footer {
+  margin-top: 4em;
+}
+
 @media screen and (max-width: 900px) {
   #url {
     width: 80%;
