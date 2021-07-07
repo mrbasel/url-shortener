@@ -8,7 +8,7 @@ const { Link, User } = require("../models.js");
 const router = express.Router();
 
 // Create link route
-router.post("/", isAuthorized, async function (req, res, next) {
+router.post("/trim", isAuthorized, async function (req, res, next) {
   const url = req.body.url;
 
   if (!isValidUrl(url)) {

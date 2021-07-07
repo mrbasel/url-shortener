@@ -11,7 +11,7 @@ Pass your API key in the `x-api-key` header with every request.
 
 ### Routes
 
-POST `/api` (create shortened link)
+POST `/api/trim` (create shortened link)
 
 Body parameters:
 
