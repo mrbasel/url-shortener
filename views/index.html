@@ -11,9 +11,9 @@
 <h2>{{ errors }}</h2>
 {% endif %}
 <form action="/" method="POST">
-    <input type="text" name="url" id="url" placeholder="enter url here" required>
+    <input type="text" name="url" id="url" placeholder="Paste a very long url here.." required>
     <div>
-        <input type="submit" value="Shorten url">
+        <input type="submit" value="Trim!">
     </div>
 </form>
 <div class="features flex one three-600">
@@ -22,12 +22,18 @@
         <p>Just paste your link into the above form then submit. No registeration required.</p>
     </div>
     <div>
-        <h4>Open source ✅</h4>
+        <h4>Open source 🙌</h4>
         <p>Open source under the MIT licence.</p>
     </div>
     <div>
-        <h4>API support ✅</h4>
-        <p>You can use the API to shorten urls from anywhere. Register for an account <a href="/auth/register">here.</a></p>
+        <h4>API support 🌟</h4>
+        <p>You can use the API to shorten urls from anywhere. Register for an account <a href="/auth/register">here.</a>
+        </p>
     </div>
 </div>
+{% endblock %}
+
+{% block footer %}
+<p>Made with ☕ by <a href="https://www.baselalnassr.com/">Basel Al Nassr</a> | <a
+        href="https://github.com/mrbasel">Github</a></p>
 {% endblock %}

@@ -29,9 +29,9 @@ nunjucks.configure("views", {
 // synchronize all models in db
 sequelize.sync();
 
+app.use(logger(process.env.NODE_ENV !== "production" ? "dev" : "combined"));
 app.use(helmet());
 app.use(cookieParser());
-app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
