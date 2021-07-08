@@ -2,11 +2,24 @@
 
 A simple and easy to use app for transforming long urls into short links.
 
+## Features
+
+- Shorten links without creating an account
+- Track number of clicks on your shortened links
+- Easy to use API for shortening urls from anywhere
+
+## Tech stack
+
+- Nodejs
+- Expressjs
+- PostgresSQL
+- Picnic CSS
+
 ## API documentation
 
 ### Requirements
 
-You need to create an account at utrim.xyz to receive your API key.
+You need to create an account at [utrim.xyz](utrim.xyz) to receive your API key.
 
 Pass your API key in the `x-api-key` header with every request.
 
