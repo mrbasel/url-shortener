@@ -3,7 +3,7 @@ const passport = require("passport");
 const bcrypt = require("bcrypt");
 
 const { User } = require("../models.js");
-const { isAnonymous } = require("../helpers.js");
+const { isAnonymous } = require("../middlewares.js");
 const configurePassport = require("../passport-conf.js");
 
 const router = express.Router();
