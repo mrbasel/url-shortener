@@ -1,7 +1,8 @@
 const express = require("express");
 const { nanoid } = require("nanoid");
 
-const { isValidUrl, isLoggedIn } = require("../middlewares.js");
+const { isValidUrl } = require("../helpers.js");
+const { isLoggedIn } = require("../middlewares.js");
 const { Link } = require("../models.js");
 
 const router = express.Router();
