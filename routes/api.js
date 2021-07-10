@@ -1,7 +1,7 @@
 const express = require("express");
 const { nanoid } = require("nanoid");
 
-const { isValidUrl } = require("../helpers.js");
+const { isValidUrl } = require("../validators.js");
 const { Link } = require("../models.js");
 const { isAuthorized } = require("../middlewares.js");
 
@@ -27,7 +27,7 @@ router.post("/trim", isAuthorized, async function (req, res, next) {
       destinationUrl: url,
       urlId: urlToken,
     });
-    const link = `${req.protocol}://${req.get("host")}/${urlToken}`;
+    const link = `${req.get("host")}/${urlToken}`;
 
     res.status(200).json({
       status: "success",
