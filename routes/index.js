@@ -1,7 +1,7 @@
 const express = require("express");
 const { nanoid } = require("nanoid");
 
-const { isValidUrl } = require("../helpers.js");
+const { isValidUrl } = require("../validators.js");
 const { isLoggedIn } = require("../middlewares.js");
 const { Link } = require("../models.js");
 
