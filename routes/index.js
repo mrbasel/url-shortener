@@ -38,11 +38,20 @@ router.post("/", async function (req, res, next) {
   if (url === "" || url == undefined) res.status(400).send("URL missing");
   else {
     const urlId = nanoid(8);
-    await Link.create({
-      destinationUrl: url,
-      urlId: urlId,
-    });
 
+    if (req.user) {
+      const link = await Link.create({
+        destinationUrl: url,
+        urlId: urlId,
+        userId: req.user.id,
+      });
+      await req.user.addLink(link);
+    } else {
+      await Link.create({
+        destinationUrl: url,
+        urlId: urlId,
+      });
+    }
     res.redirect("/url/" + urlId);
   }
 });
