@@ -27,7 +27,7 @@ router.post("/trim", isAuthorized, async function (req, res, next) {
       destinationUrl: url,
       urlId: urlToken,
     });
-    const link = `${req.protocol}://${req.get("host")}/${urlToken}`;
+    const link = `${req.get("host")}/${urlToken}`;
 
     res.status(200).json({
       status: "success",

@@ -66,7 +66,7 @@ router.get("/:urlId", async function (req, res, next) {
 
 router.get("/url/:token", async function (req, res, next) {
   const urlId = req.params.token;
-  const link = `${req.protocol}://${req.get("host")}/${urlId}`;
+  const link = `${req.get("host")}/${urlId}`;
 
   const linkData = await Link.findOne({
     where: {
