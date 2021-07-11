@@ -52,6 +52,12 @@ User.init(
   }
 );
 
+User.hasMany(Link, {
+  foreignKey: {
+    allowNull: true,
+  },
+});
+
 module.exports = {
   sequelize,
   Link,
