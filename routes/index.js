@@ -82,6 +82,7 @@ router.get("/url/:token", async function (req, res, next) {
   res.render("link.html", {
     title: "Express",
     link: link,
+    originalUrl: linkData.destinationUrl,
     clicks: linkData.clicksCount,
   });
 });
