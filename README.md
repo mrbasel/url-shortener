@@ -61,7 +61,7 @@ request(options, function (error, response) {
 {
     "status": "success",
     "data": {
-        "link": "https://utrim.xyz/ZkgxZePr"
+        "link": "utrim.xyz/ZkgxZePr"
     }
 }
 ```
