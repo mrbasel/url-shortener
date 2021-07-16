@@ -1,0 +1,10 @@
+.card {
+  margin: 1em auto;
+  padding: 0.5em 0;
+  width: 40%;
+}
+
+.card .dangerous {
+  margin: 0 auto;
+  float: none !important;
+}
