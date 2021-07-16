@@ -19,10 +19,18 @@ router.get("/", function (req, res, next) {
   res.render("index.html", { errors: errors });
 });
 
-router.get("/account", isLoggedIn, function (req, res, next) {
+router.get("/account", isLoggedIn, async function (req, res, next) {
+  const links = await req.user.getLinks({
+    order: [["createdAt", "DESC"]],
+  });
+  links.forEach((i) => {
+    i.dataValues.urlId = `${req.get("host")}/${i.dataValues.urlId}`;
+  });
+
   res.render("account.html", {
     username: req.user.username,
     key: req.user.apiKey,
+    links: links.map((i) => i.dataValues),
   });
 });
 
@@ -38,11 +46,20 @@ router.post("/", async function (req, res, next) {
   if (url === "" || url == undefined) res.status(400).send("URL missing");
   else {
     const urlId = nanoid(8);
-    await Link.create({
-      destinationUrl: url,
-      urlId: urlId,
-    });
 
+    if (req.user) {
+      const link = await Link.create({
+        destinationUrl: url,
+        urlId: urlId,
+        userId: req.user.id,
+      });
+      await req.user.addLink(link);
+    } else {
+      await Link.create({
+        destinationUrl: url,
+        urlId: urlId,
+      });
+    }
     res.redirect("/url/" + urlId);
   }
 });
@@ -82,6 +99,7 @@ router.get("/url/:token", async function (req, res, next) {
   res.render("link.html", {
     title: "Express",
     link: link,
+    originalUrl: linkData.destinationUrl,
     clicks: linkData.clicksCount,
   });
 });
