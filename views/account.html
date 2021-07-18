@@ -9,7 +9,7 @@
 <p>Your API key:</p>
 <input type="text" name="key" id="key" value={{ key }} readonly>
 
-<ul id="links-container">
+<div id="links-container">
     <h2>Your links</h2>
     {% for link in links %}
     <div class="card">
@@ -23,5 +23,5 @@
     </div>
 
     {% endfor %}
-</ul>
+</div>
 {% endblock %}

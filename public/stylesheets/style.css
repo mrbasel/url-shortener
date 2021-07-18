@@ -24,7 +24,7 @@ footer {
 }
 
 @media screen and (max-width: 900px) {
-  #url {
+  input {
     width: 80%;
   }
 }
