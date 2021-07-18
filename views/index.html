@@ -7,8 +7,8 @@
 {% block main %}
 <h1>Utrim</h1>
 <p>An app for transforming long urls into short links.</p>
-{% if errors %}
-<h3 class="error">{{ errors }}</h3>
+{% if error[0] %}
+<h3 class="error">{{ error }}</h3>
 {% endif %}
 <form action="/" method="POST">
     <input type="text" name="url" id="url" placeholder="Paste a very long url here.." required>

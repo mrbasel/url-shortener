@@ -23,6 +23,10 @@ footer {
   margin-top: 4em;
 }
 
+.error {
+  color: red;
+}
+
 @media screen and (max-width: 900px) {
   input {
     width: 80%;
