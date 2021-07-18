@@ -50,12 +50,22 @@ router.post(
     const username = req.body.username;
     const password = req.body.password;
 
-    await User.create({
-      username: username,
-      password: await bcrypt.hash(password, 10),
+    const user = User.findOne({
+      where: {
+        username: username,
+      },
     });
 
-    res.redirect("/auth/login");
+    if (!user) {
+      await User.create({
+        username: username,
+        password: await bcrypt.hash(password, 10),
+      });
+      res.redirect("/auth/login");
+    } else {
+      req.flash("error", [{ msg: "The username is already picked" }]);
+      res.redirect("/auth/register");
+    }
   }
 );
 
