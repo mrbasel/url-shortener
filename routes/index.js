@@ -13,10 +13,7 @@ router.use(function (req, res, next) {
 });
 
 router.get("/", function (req, res, next) {
-  const errors = req.cookies["err"];
-  res.clearCookie("err", { httpOnly: true });
-
-  res.render("index.html", { errors: errors });
+  res.render("index.html", { error: req.flash("error") });
 });
 
 router.get("/account", isLoggedIn, async function (req, res, next) {
@@ -38,9 +35,8 @@ router.post("/", async function (req, res, next) {
   const url = req.body.url;
 
   if (!isValidUrl(url)) {
-    res.cookie("err", "Invalid URL");
-    res.redirect("/");
-    return;
+    req.flash("error", "Unvalid URL");
+    return res.redirect("/");
   }
 
   if (url === "" || url == undefined) res.status(400).send("URL missing");

@@ -1,6 +1,7 @@
 const express = require("express");
 const passport = require("passport");
 const bcrypt = require("bcrypt");
+const { body, validationResult } = require("express-validator");
 
 const { User } = require("../models.js");
 const { isAnonymous } = require("../middlewares.js");
@@ -12,7 +13,7 @@ const router = express.Router();
 configurePassport(passport);
 
 router.get("/login", isAnonymous, function (req, res, next) {
-  res.render("login.html");
+  res.render("login.html", { error: req.flash("error") });
 });
 
 router.post(
@@ -20,24 +21,43 @@ router.post(
   passport.authenticate("local", {
     successRedirect: "/account",
     failureRedirect: "/auth/login",
+    failureFlash: "Invalid username or password",
   })
 );
 
 router.get("/register", isAnonymous, function (req, res, next) {
-  res.render("register.html");
+  const errors = req.flash("error");
+  res.render("register.html", { error: errors });
 });
 
-router.post("/register", async function (req, res, next) {
-  const username = req.body.username;
-  const password = req.body.password;
+router.post(
+  "/register",
+  body("username")
+    .isLength({ min: 4, max: 20 })
+    .withMessage("Username must be between 4 and 20 characters"),
+  body("password")
+    .isLength({ min: 8 })
+    .withMessage("Password must be atleast 8 characters long"),
+  function (req, res, next) {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      req.flash("error", errors.array());
+      return res.redirect("/auth/register");
+    }
+    next();
+  },
+  async function (req, res, next) {
+    const username = req.body.username;
+    const password = req.body.password;
 
-  await User.create({
-    username: username,
-    password: await bcrypt.hash(password, 10),
-  });
+    await User.create({
+      username: username,
+      password: await bcrypt.hash(password, 10),
+    });
 
-  res.redirect("/auth/login");
-});
+    res.redirect("/auth/login");
+  }
+);
 
 router.get("/logout", function (req, res, next) {
   req.logOut();
