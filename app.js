@@ -6,6 +6,7 @@ const nunjucks = require("nunjucks");
 const passport = require("passport");
 const session = require("express-session");
 const helmet = require("helmet");
+const flash = require("connect-flash");
 
 // Load enviroment vars from .env file if in dev enviroment
 if (process.env.NODE_ENV !== "production") {
@@ -31,11 +32,10 @@ sequelize.sync();
 
 app.use(logger(process.env.NODE_ENV !== "production" ? "dev" : "combined"));
 app.use(helmet());
-app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
+app.use(cookieParser(process.env.secret));
 app.use(
   session({
     secret: process.env.secret,
@@ -43,11 +43,13 @@ app.use(
     saveUninitialized: false,
     cookie: {
       secure: "auto",
+      maxAge: 60000,
     },
   })
 );
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(flash());
 
 app.use("/", indexRouter);
 app.use("/auth", authRouter);

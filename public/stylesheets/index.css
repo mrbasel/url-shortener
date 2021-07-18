@@ -3,3 +3,7 @@
   padding: 4em;
   background-color: #eee;
 }
+
+.error {
+  color: red;
+}

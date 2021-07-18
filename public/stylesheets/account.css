@@ -8,3 +8,9 @@
   margin: 0 auto;
   float: none !important;
 }
+
+@media screen and (max-width: 900px) {
+  .card {
+    width: 80%;
+  }
+}

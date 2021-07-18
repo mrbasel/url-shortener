@@ -23,8 +23,12 @@ footer {
   margin-top: 4em;
 }
 
+.error {
+  color: red;
+}
+
 @media screen and (max-width: 900px) {
-  #url {
+  input {
     width: 80%;
   }
 }
