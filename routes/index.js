@@ -20,14 +20,12 @@ router.get("/account", isLoggedIn, async function (req, res, next) {
   const links = await req.user.getLinks({
     order: [["createdAt", "DESC"]],
   });
-  links.forEach((i) => {
-    i.dataValues.urlId = `${req.get("host")}/${i.dataValues.urlId}`;
-  });
 
   res.render("account.html", {
     username: req.user.username,
     key: req.user.apiKey,
     links: links.map((i) => i.dataValues),
+    host: req.get("host") + "/",
   });
 });
 
@@ -98,6 +96,19 @@ router.get("/url/:token", async function (req, res, next) {
     originalUrl: linkData.destinationUrl,
     clicks: linkData.clicksCount,
   });
+});
+
+router.post("/url/delete", isLoggedIn, async function (req, res, next) {
+  const urlId = req.body.id;
+
+  await Link.destroy({
+    where: {
+      urlId: urlId,
+      user_id: req.user.id,
+    },
+  });
+
+  res.redirect("/account");
 });
 
 module.exports = router;

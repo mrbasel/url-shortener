@@ -17,10 +17,13 @@
         <header>
             <p>Link {{ loop.index }}</p>
         </header>
-        <p>Shortened link: <a href={{ link.urlId }}>{{ link.urlId }}</a></p>
+        <p>Shortened link: <a href={{ host }}{{ link.urlId }}>{{ host }}{{ link.urlId }}</a></p>
         <p>Original url: <a href={{ link.destinationUrl }}>{{ link.destinationUrl }}</a></p>
         <p>Clicks: {{ link.clicksCount }}</p>
-        <button class="dangerous">Delete</button>
+        <form action="/url/delete" method="POST">
+            <input type="hidden" name="id" value={{ link.urlId }}>
+            <button class="dangerous">Delete</button>
+        </form>
     </div>
 
     {% endfor %}
