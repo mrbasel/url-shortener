@@ -13,10 +13,8 @@ nav {
 input {
   margin: 0 auto;
   margin-top: 1.5em;
-}
-
-input {
   width: 40%;
+  transition: none;
 }
 
 footer {
