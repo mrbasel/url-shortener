@@ -98,4 +98,17 @@ router.get("/url/:token", async function (req, res, next) {
   });
 });
 
+router.post("/url/delete", isLoggedIn, async function (req, res, next) {
+  const urlId = req.body.id;
+
+  await Link.destroy({
+    where: {
+      urlId: urlId,
+      user_id: req.user.id,
+    },
+  });
+
+  res.redirect("/account");
+});
+
 module.exports = router;
