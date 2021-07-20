@@ -20,14 +20,12 @@ router.get("/account", isLoggedIn, async function (req, res, next) {
   const links = await req.user.getLinks({
     order: [["createdAt", "DESC"]],
   });
-  links.forEach((i) => {
-    i.dataValues.urlId = `${req.get("host")}/${i.dataValues.urlId}`;
-  });
 
   res.render("account.html", {
     username: req.user.username,
     key: req.user.apiKey,
     links: links.map((i) => i.dataValues),
+    host: req.get("host") + "/",
   });
 });
 
