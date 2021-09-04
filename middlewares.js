@@ -2,12 +2,12 @@ const validator = require("validator");
 const { User } = require("./models.js");
 
 module.exports.isLoggedIn = function (req, res, next) {
-  if (!req.isAuthenticated()) return res.redirect("/auth/login");
+  if (!req.isAuthenticated()) return res.status(401).json();
   next();
 };
 
 module.exports.isAnonymous = function (req, res, next) {
-  if (req.isAuthenticated()) return res.redirect("/");
+  if (req.isAuthenticated()) return res.status(401).json();
   next();
 };
 
