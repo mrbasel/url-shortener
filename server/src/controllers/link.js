@@ -5,7 +5,23 @@ const { isValidUrl } = require("../validators.js");
 const { Link } = require("../models.js");
 
 class LinkController {
-  shortenLink(req, res, next) {
+  static async visitLink(req, res, next) {
+    const urlId = req.params.urlId;
+
+    const link = await Link.findOne({
+      where: {
+        urlId: urlId,
+      },
+    });
+    if (link == null) {
+      next();
+    } else {
+      link.increment("clicksCount");
+      res.redirect(link.destinationUrl);
+    }
+  }
+
+  static async shortenLink(req, res, next) {
     const url = req.body.url;
 
     if (!isValidUrl(url)) {
@@ -38,20 +54,28 @@ class LinkController {
     });
   }
 
-  async getLinks(req, res, next) {
+  static async getLinks(req, res, next) {
     const links = await req.user.getLinks({
       order: [["createdAt", "DESC"]],
+      attributes: ["urlId", "clicksCount", "destinationUrl"],
     });
 
     res.json({
       status: "success",
       data: {
-        links: links,
+        links: links.map(
+          (link) =>
+            new Object({
+              link: `${req.get("host")}/${link.urlId}`,
+              clicksCount: link.clicksCount,
+              destinationUrl: link.destinationUrl,
+            })
+        ),
       },
     });
   }
 
-  updateLink(req, res, next) {
+  static async updateLink(req, res, next) {
     const newDestinationUrl = req.body.link;
     const urlId = req.body.linkId;
 
@@ -77,7 +101,7 @@ class LinkController {
     });
   }
 
-  deleteLink(req, res, next) {
+  static async deleteLink(req, res, next) {
     const urlId = req.body.id;
 
     await Link.destroy({
