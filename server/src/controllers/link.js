@@ -57,7 +57,7 @@ class LinkController {
   static async getLinks(req, res, next) {
     const links = await req.user.getLinks({
       order: [["createdAt", "DESC"]],
-      attributes: ["urlId", "clicksCount", "destinationUrl"],
+      attributes: ["id", "urlId", "clicksCount", "destinationUrl"],
     });
 
     res.json({
@@ -66,6 +66,7 @@ class LinkController {
         links: links.map(
           (link) =>
             new Object({
+              id: link.id,
               link: `${req.get("host")}/${link.urlId}`,
               clicksCount: link.clicksCount,
               destinationUrl: link.destinationUrl,
@@ -77,14 +78,14 @@ class LinkController {
 
   static async updateLink(req, res, next) {
     const newDestinationUrl = req.body.link;
-    const urlId = req.body.linkId;
+    const id = req.params.id;
 
-    const link = await Link.findOne({
+    const links = await req.user.getLinks({
       where: {
-        urlId: urlId,
-        user_id: req.user.id,
+        id: id,
       },
     });
+    const link = links[0];
 
     if (!link)
       return res.status(404).json({
@@ -93,20 +94,23 @@ class LinkController {
       });
 
     link.destinationUrl = newDestinationUrl;
+    await link.save();
+
     res.json({
       status: "success",
       data: {
-        link: `${req.get("host")}/${urlId}`,
+        link: `${req.get("host")}/${link.urlId}`,
       },
     });
   }
 
   static async deleteLink(req, res, next) {
-    const urlId = req.body.id;
+    const id = req.params.id;
 
+    // todo: check if link exists
     await Link.destroy({
       where: {
-        urlId: urlId,
+        id: id,
         user_id: req.user.id,
       },
     });
